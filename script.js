@@ -11,21 +11,22 @@ console.log(consultaCEP); */
 
 //ALURA, VÁRIOS FETCH'S/PROMISES - 
 async function buscaEndereco(cep){
+  var msgErro=document.getElementById('erro');
+  msgErro.innerHTML='';
     try{
     var consultaCEP = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     var consultaCEPConvertido = await consultaCEP.json();
     if(consultaCEPConvertido.erro){
         throw Error('Cep inexistente!')
     }
-
     preencherCampos(consultaCEPConvertido)
-    
+
     console.log(consultaCEPConvertido);
     return consultaCEPConvertido;
   }
-/*     catch (erro) {
-        console.log(erro);
-    }  */finally {
+    catch (erro) {
+        msgErro.innerHTML=`<p>CEP inválido. Tente novamente!</p>`;
+    }  finally {
         console.log("Processamento concluído");
     }
 }
